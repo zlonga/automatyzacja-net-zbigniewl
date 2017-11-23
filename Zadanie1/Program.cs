@@ -8,7 +8,7 @@ namespace Zadanie1
         {
             string x = "";
 
-            Console.WriteLine("Witaj świecie!");
+            Console.WriteLine("Witaj_świecie!");
             while (x != "exit")
             { Console.WriteLine("Jeśli chcesz zakończyć wpisz 'exit' i naciśnij ENTER");
                 x = Console.ReadLine();
