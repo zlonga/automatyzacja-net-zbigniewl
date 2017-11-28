@@ -6,7 +6,25 @@ using System.Threading.Tasks;
 
 namespace Automatyzacja2017
 {
-    public class Class1
+    public class Matematyka
+
     {
+        public double Add(double x, double y)
+            {
+            return x + y; 
+            }
+        public double subtraction(double x, double y)
+            {
+            return x - y;
+            }
+        public double multiplication(double x, double y)
+            {
+            return x * y;
+            }
+        public double division(double x, double y)
+            {
+            return x / y;
+            }
+
     }
 }
