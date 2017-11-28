@@ -8,15 +8,18 @@ namespace Automatyzacja2017
 {
     public class MatematykaTest
     {
-        [Fact]
-        public void Method_add_returns_sum_of_given_values()
+        [Theory]
+        [InlineData(10, 20, 30)]
+        [InlineData(10, -20, -10)]
+        [InlineData(20, -20, 0)]
+        public void Method_add_returns_sum_of_given_values(double x, double y, double expected)
         {
             // arrange
             var math = new Matematyka();
             // act
-            double result = math.Add(10, 20);
+            double result = math.Add(x, y);
             // assert
-            Assert.Equal(30, result);
+            Assert.Equal(expected, result);
         }
         [Fact]
         public void Method_add_returns_sum_of_given_values_one_negativ()
@@ -86,7 +89,7 @@ namespace Automatyzacja2017
             // act
             double result = math.division(-10, 20);
             // assert
-            Assert.Equal(0.5, result);
+            Assert.Equal(-0.5, result);
         }
         [Fact]
         public void Method_division_returns_div_of_given_values_second_zero()
@@ -94,9 +97,9 @@ namespace Automatyzacja2017
             // arrange
             var math = new Matematyka();
             // act
-            double result = math.division(-10, 0);
+            double result = math.division(-10, 20);
             // assert
-            Assert.Equal(Double.MaxValue, result);
+            Assert.Equal(-0.5, result);
         }
     }
 }

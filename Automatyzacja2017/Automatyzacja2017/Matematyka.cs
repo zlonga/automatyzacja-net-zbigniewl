@@ -23,10 +23,7 @@ namespace Automatyzacja2017
             }
         public double division(double x, double y)
             {
-            if (y != 0)
-                return x / y;
-            else
-                return 
+            return x / y;
             }
 
     }
