@@ -11,6 +11,7 @@ using OpenQA.Selenium.Support.UI;
 using Xunit;
 using System.Linq;
 using System.Threading;
+using System.Collections.ObjectModel;
 
 namespace SeleniumTests
 
@@ -19,10 +20,17 @@ namespace SeleniumTests
     public class Example : IDisposable
 
     {
+        private const string SearchTextBoxID = "lst-ib";
+        private const string PageTitle = "Code Sprinters -";
+        private const string SearchQuery = "code sprinters";
+        private const string LinkTextToFind = "Poznaj nasze podejście";
+        private const string AcceptPoliticsCookies = "Akceptuję";
+        private const string TagName = "h2";
+        private const string TextToFind = "WIEDZA NA PIERWSZYM MIEJSCU";
+        private string googleURL = "https://www.google.pl/";
 
         private IWebDriver driver;
         private StringBuilder verificationErrors;
-        private string baseURL;
         private bool acceptNextAlert = true;
 
         public Example()
@@ -31,7 +39,8 @@ namespace SeleniumTests
 
             driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
-            baseURL = "https://www.google.pl/";
+            driver.Manage().Timeouts()
+                .ImplicitWait = TimeSpan.FromMilliseconds(100);
             verificationErrors = new StringBuilder();
 
         }
@@ -40,28 +49,70 @@ namespace SeleniumTests
         public void TheExampleTest()
 
         {
+            GoToGoogle();
 
-            driver.Navigate().GoToUrl(baseURL);                                                                     //otwiera stronę startową
-            driver.FindElement(By.Id("lst-ib")).Clear();                                                            //czyści pole o Id
-            driver.FindElement(By.Id("lst-ib")).SendKeys("code sprinters");                                         //wprowadza tekst
-            driver.FindElement(By.Id("lst-ib")).Submit();                                                           //zatwierdza
-            driver.FindElement(By.LinkText("Code Sprinters -")).Click();                                            //wyszukuje link i w niego klika
+            Search(SearchQuery);
 
-            var element = driver.FindElement(By.LinkText("Poznaj nasze podejście"));                                //test czy na stronie widoczny jest link z tekstem
-            Assert.NotNull(element);
-            var elements = driver.FindElements(By.LinkText("Poznaj nasze podejście"));                              //czy na stronie widoczny jest jeden link
-            Assert.Single(elements);
-            // Assert.Equal("Code Sprinters -", driver.Title);
-            driver.FindElement(By.LinkText("Akceptuję")).Click();                                                   //wyszukuje link i klika w niego
-            //waitForElementPresent(By.LinkText("Poznaj nasze podejście"), 2);                                      //czeka max 2s
-            //Thread.Sleep(2000);                                                                                   //czeka na sztywno 2s
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));                                //czeka max 5s 
-            wait.Until(ExpectedConditions.InvisibilityOfElementWithText(By.LinkText("Akceptuję"), "Akceptuję"));    //lub do chwili aż zniknie link Akceptuję
-            driver.FindElement(By.LinkText("Poznaj nasze podejście")).Click();                                      //wyszukuje link z tekste i kilka w niego
-            var elements_2 = driver.FindElements(By.TagName("h2"));                                                 //wyszukuje wszystkie teksty z tagiem h2
-            Assert.Single(elements_2.Where(tag => tag.Text == "WIEDZA NA PIERWSZYM MIEJSCU"));                      //sprawdza czy 1 element w powyższej liscie ma tekst ""
+            ClickOnLinkWithText(PageTitle);
 
-            Assert.Contains("WIEDZA NA PIERWSZYM MIEJSCU", driver.PageSource);                                      //sprawdza czy na stronie jest text
+            Assert.Single(GetElementsByLinkText(LinkTextToFind));
+
+            GoToOurApproachPage();
+
+            Assert.Single(FindElementsByTagNameAndText(TagName, TextToFind));
+        }
+
+        private void GoToOurApproachPage()
+        {
+            ClickOnLinkWithText(AcceptPoliticsCookies);
+
+            InvisibilityOfElementWithText(AcceptPoliticsCookies, 11);
+
+            ClickOnLinkWithText(LinkTextToFind);
+        }
+
+        private System.Collections.Generic.IEnumerable<IWebElement> FindElementsByTagNameAndText(string tagName, string text)
+        {
+            return GetElementsByTagName(tagName).Where(tag => tag.Text == text);
+        }
+
+        private ReadOnlyCollection<IWebElement> GetElementsByTagName(string tagName)
+        {
+            return driver.FindElements(By.TagName(tagName));
+        }
+
+        private void InvisibilityOfElementWithText(string acceptPoliticsCookies, int time)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(time));
+            wait.Until(ExpectedConditions.InvisibilityOfElementWithText(By.LinkText(acceptPoliticsCookies), acceptPoliticsCookies));
+        }
+
+        private ReadOnlyCollection<IWebElement> GetElementsByLinkText(string linkTextToFind)
+        {
+            return driver.FindElements(By.LinkText(linkTextToFind));
+        }
+
+        private void Search(string query)
+        {
+            var searchBox = GetSearchBox();
+            searchBox.Clear();
+            searchBox.SendKeys(query);
+            searchBox.Submit();
+        }
+
+        private void ClickOnLinkWithText(string resultName)
+        {
+            driver.FindElement(By.LinkText(resultName)).Click();
+        }
+
+        private void GoToGoogle()
+        {
+            driver.Navigate().GoToUrl(googleURL);
+        }
+
+        private IWebElement GetSearchBox()
+        {
+            return driver.FindElement(By.Id(SearchTextBoxID));
         }
 
         protected void waitForElementPresent(By by, int seconds)
