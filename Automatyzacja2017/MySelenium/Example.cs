@@ -58,7 +58,7 @@ namespace SeleniumTests
             Assert.Single(GetElementsByLinkText(LinkTextToFind));
 
             GoToOurApproachPage();
-
+ 
             Assert.Single(FindElementsByTagNameAndText(TagName, TextToFind));
         }
 
@@ -67,7 +67,7 @@ namespace SeleniumTests
             ClickOnLinkWithText(AcceptPoliticsCookies);
 
             InvisibilityOfElementWithText(AcceptPoliticsCookies, 11);
-
+            
             ClickOnLinkWithText(LinkTextToFind);
         }
 
