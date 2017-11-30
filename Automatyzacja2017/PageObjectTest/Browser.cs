@@ -10,7 +10,7 @@ namespace PageObjectTest
     {
         private static IWebDriver _driver;
 
-        static Browser()
+        internal static void Initialize()
         {
             _driver = new FirefoxDriver();
             _driver.Manage().Window.Maximize();

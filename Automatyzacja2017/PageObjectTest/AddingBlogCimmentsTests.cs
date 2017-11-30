@@ -1,11 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using Xunit;
 
 namespace PageObjectTest
 {
     public class AddingBlogCimmentsTests : IDisposable
     {
+
+        public AddingBlogCimmentsTests()
+        {
+            Browser.Initialize();
+        }
         
         [Fact]
 
@@ -50,7 +54,7 @@ namespace PageObjectTest
             };
             NotePage.AddSubNote(comment, subcomment);
           
-            //Assert.Contains(comment.Text, Browser.PageSource());
+            Assert.Contains(subcomment.Text, Browser.PageSource());
         }
         public void Dispose()
         {

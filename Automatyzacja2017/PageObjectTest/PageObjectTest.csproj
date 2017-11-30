@@ -63,11 +63,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddingBlogCimmentsTests.cs" />
+    <Compile Include="AdminPage.cs" />
     <Compile Include="Browser.cs" />
+    <Compile Include="AddingNewPost.cs" />
     <Compile Include="Comment.cs" />
+    <Compile Include="LoginPage.cs" />
     <Compile Include="MainPage.cs" />
+    <Compile Include="NoteData.cs" />
     <Compile Include="NotePage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User_pass.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
