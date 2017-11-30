@@ -29,6 +29,30 @@ namespace PageObjectTest
             var submit = Browser.FindElementByID("comment-submit");
             submit.Click();
             Thread.Sleep(2000);
+            
+        }
+        
+        internal static void AddSubNote(Comment who, Comment testData)
+        {
+            var elements = Browser.FindByXpath("//a[@aria-label='Reply to " + who.User + "']");
+            elements.First().Click();
+            Thread.Sleep(2000);
+            var commentBox = Browser.FindElementByID("comment");
+            commentBox.Click();
+            commentBox.Clear();
+            commentBox.SendKeys(testData.Text);
+            var email = Browser.FindElementByID("email");
+            email.Click();
+            email.Clear();
+            email.SendKeys(testData.Mail);
+            Browser.WaitForInvisible(By.XPath("//label[@for='author']"));
+            var user = Browser.FindElementByID("author");
+            user.Click();
+            user.Clear();
+            user.SendKeys(testData.User);
+            var submit = Browser.FindElementByID("comment-submit");
+            submit.Click();
+            Thread.Sleep(2000);
         }
     }
 }

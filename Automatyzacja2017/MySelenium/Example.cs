@@ -44,7 +44,7 @@ namespace SeleniumTests
             verificationErrors = new StringBuilder();
 
         }
-        [Fact]
+        [Fact(Skip ="expensive")]
 
         public void TheExampleTest()
 
