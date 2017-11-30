@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.ObjectModel;
@@ -12,7 +13,7 @@ namespace PageObjectTest
 
         static Browser()
         {
-            _driver = new ChromeDriver();
+            _driver = new FirefoxDriver();
             _driver.Manage().Window.Maximize();
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(500);
         }
@@ -26,6 +27,11 @@ namespace PageObjectTest
         {
             WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
             wait.Until(ExpectedConditions.InvisibilityOfElementLocated(by));
+        }
+
+        internal static string PageSource()
+        {
+            return _driver.PageSource;
         }
 
         internal static void NavigateTo(string url)
